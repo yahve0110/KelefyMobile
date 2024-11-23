@@ -49,15 +49,16 @@ function RootLayoutNav() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <StatusBar 
-        barStyle="light-content"
-        backgroundColor="red"
-        translucent={true}
+        hidden 
       />
       <Stack
+      
         screenOptions={{
           navigationBarColor: Colors.light.secondaryBackground,
         }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="levels" options={{ headerShown: false }} />
+
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
     </ThemeProvider>

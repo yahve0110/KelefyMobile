@@ -1,10 +1,11 @@
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@/components/Themed';
+import MainPage from '@/components/MainPage/MainPage';
 
 export default function LessonsScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Lessons</Text>
+      <MainPage />
     </View>
   );
 }
