@@ -72,6 +72,7 @@ export default function MainPage() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Choose level</Text>
       <View style={styles.carouselWrapper}>
         <View style={styles.carouselContainer}>
           {/* Левая стрелка */}
@@ -174,6 +175,13 @@ export default function MainPage() {
 }
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: Colors.light.color,
+    marginBottom: 10,
+  },
   container: {
     flex: 1,
     backgroundColor: Colors.light.background,

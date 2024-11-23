@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar, Text } from "react-native";
 import Colors from "@/constants/Colors";
 import React from "react";
@@ -8,6 +8,8 @@ type RootStackParamList = {
 };
 
 export default function LevelLayout(): React.JSX.Element {
+  const { id } = useLocalSearchParams<{ id: string }>();
+
   return (
     <>
       <StatusBar
@@ -31,7 +33,7 @@ export default function LevelLayout(): React.JSX.Element {
         <Stack.Screen
           name="[id]"
           options={{
-            headerTitle: "Level",
+            headerTitle: "Lesson " + id,
             headerStyle: {
               backgroundColor: Colors.light.background,
             },
