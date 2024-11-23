@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash-icon.png",
@@ -14,12 +14,22 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "backgroundColor": "#000000",
+      "bundleIdentifier": "com.anonymous.keelefymobile"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "navigationBarColor": "#000000",
+      "softwareNavigationBarColor": "#000000",
+      "navigationBarHidden": false,
+      "package": "com.anonymous.keelefymobile",
+      "androidNavigationBar": {
+        "backgroundColor": "#000000",
+        "barStyle": "light-content"
       }
     },
     "web": {

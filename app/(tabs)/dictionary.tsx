@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@/components/Themed';
 
-export default function LessonsScreen() {
+export default function DictionaryScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Lessons</Text>
+      <Text style={styles.title}>Dictionary</Text>
     </View>
   );
 }
