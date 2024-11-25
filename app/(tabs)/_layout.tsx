@@ -25,9 +25,7 @@ export default function TabLayout() {
 
   return (
     <>
-      <StatusBar
-        backgroundColor="#000000"
-      />
+      <StatusBar backgroundColor="#000000" />
       <Tabs
         screenOptions={{
           headerShown: false,
@@ -36,8 +34,8 @@ export default function TabLayout() {
           tabBarStyle: {
             backgroundColor: Colors.light.secondaryBackground,
             borderTopWidth: 1,
-            borderTopColor: '#ffffff',
-            shadowColor: '#ffffff',
+            borderTopColor: "#ffffff",
+            shadowColor: "#ffffff",
             shadowOffset: {
               width: 0,
               height: -2,

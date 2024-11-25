@@ -1,4 +1,4 @@
-import { Stack, useLocalSearchParams } from "expo-router";
+import { RouteParams, Stack, useLocalSearchParams } from "expo-router";
 import { StatusBar, Text } from "react-native";
 import Colors from "@/constants/Colors";
 import React from "react";
@@ -8,7 +8,7 @@ type RootStackParamList = {
 };
 
 export default function LevelLayout(): React.JSX.Element {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { title } = useLocalSearchParams<{ title: string }>();
 
   return (
     <>
@@ -33,7 +33,7 @@ export default function LevelLayout(): React.JSX.Element {
         <Stack.Screen
           name="[id]"
           options={{
-            headerTitle: "Lesson " + id,
+            headerTitle: title,
             headerStyle: {
               backgroundColor: Colors.light.background,
             },

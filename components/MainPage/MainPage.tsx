@@ -12,7 +12,7 @@ import {
 import { useState, useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
-import { router } from 'expo-router';
+import { router } from "expo-router";
 
 // Получаем размеры экрана
 const windowWidth = Dimensions.get("window").width;
@@ -56,16 +56,16 @@ export default function MainPage() {
   };
 
   const handleLevelPress = (level: Level) => {
-    console.log('Level pressed:', level);
+    console.log("Level pressed:", level);
     if (level.available) {
-      console.log('Navigating to:', `/level/${level.level.toLowerCase()}`);
+      console.log("Navigating to:", `/level/${level.level.toLowerCase()}`);
       try {
         router.push({
           pathname: "/levels/[id]",
-          params: { id: level.level.toLowerCase() }
+          params: { id: level.level.toLowerCase() },
         });
       } catch (error) {
-        console.error('Navigation error:', error);
+        console.error("Navigation error:", error);
       }
     }
   };

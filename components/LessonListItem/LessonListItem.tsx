@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
-import { router } from 'expo-router';
+import { router } from "expo-router";
 
 interface LessonListItemProps {
   title: string;
@@ -20,40 +20,37 @@ export default function LessonListItem({
     if (available) {
       router.push({
         pathname: "/lesson/[id]",
-        params: { id }
+        params: { 
+          id,
+          title,
+        },
       });
     }
   };
 
   return (
-    <TouchableOpacity 
+    <TouchableOpacity
       onPress={handlePress}
       activeOpacity={available ? 0.7 : 1}
       disabled={!available}
     >
-      <View
-        style={[
-          styles.content,
-        ]}
-      >
+      <View style={[styles.content]}>
         <View
           style={[
             styles.levelIndicator,
             available ? styles.availableBorder : styles.unavailableBorder,
           ]}
         >
-          <Text style={[
-            styles.indicatorText,
-          ]}>{number}</Text>
+          <Text style={[styles.indicatorText]}>{number}</Text>
         </View>
-        <Text
-          style={styles.levelTitle}
-          numberOfLines={2}
-          ellipsizeMode="tail"
-        >
+        <Text style={styles.levelTitle} numberOfLines={2} ellipsizeMode="tail">
           {title}
         </Text>
-        <Ionicons name="arrow-forward" size={24} color={available ? Colors.light.color : '#666'} />
+        <Ionicons
+          name="arrow-forward"
+          size={24}
+          color={available ? Colors.light.color : "#666"}
+        />
       </View>
     </TouchableOpacity>
   );

@@ -1,45 +1,41 @@
-import { View, StyleSheet, Dimensions, TouchableOpacity, Text } from 'react-native';
-import { WebView } from 'react-native-webview';
-import { useLocalSearchParams, router } from 'expo-router';
-import Colors from '@/constants/Colors';
+import { View, StyleSheet, Text } from "react-native";
+import VideoLesson from "@/components/lessons/videoLesson/VideoLesson";
+import Colors from "@/constants/Colors";
+import { data } from "@/data";
+import CardsLesson from "@/components/lessons/cardsLesson/CardsLesson";
+import { useState } from "react";
+import { useLocalSearchParams } from "expo-router";
 
-const { width, height } = Dimensions.get('window');
-const videoHeight = height * 0.75; // 3/4 экрана для видео
+type LessonType = "video" | "cards";
+
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
+  const [dataNr, setDataNr] = useState(1)
+
   const handleNext = () => {
-    const nextId = String(Number(id) + 1);
-    router.push({
-      pathname: "/lesson/[id]",
-      params: { id: nextId }
-    });
-  };
+    setDataNr(dataNr + 1)
+  }
+
+  const LESSON_COMPONENTS: Record<LessonType, React.ReactNode> = {
+    video: data[id][dataNr].type === 'video' ? <VideoLesson {...data[id][dataNr]} handleNext={handleNext} /> : null,
+    cards: data[id][dataNr].type === 'cards' ? <CardsLesson data={data[id][dataNr].data} /> : null,
+  } as const;
+  
+
+
+  if (!data[id]?.[dataNr]?.type) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      <View style={styles.videoContainer}>
-        <WebView
-          style={styles.video}
-          source={{ 
-            uri: 'https://app.heygen.com/embeds/4dd02802245f45909d092aad7d0458c7' 
-          }}
-          allowsFullscreenVideo
-          javaScriptEnabled
-          domStorageEnabled
-          scalesPageToFit
-        />
-      </View>
-
-      <View style={styles.bottomContainer}>
-        <TouchableOpacity 
-          style={styles.nextButton}
-          onPress={handleNext}
-        >
-          <Text style={styles.buttonText}>Next Lesson</Text>
-        </TouchableOpacity>
-      </View>
+      {LESSON_COMPONENTS[data[id][dataNr].type as LessonType]}
     </View>
   );
 }
@@ -49,26 +45,4 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.light.background,
   },
-  videoContainer: {
-    height: videoHeight,
-  },
-  video: {
-    flex: 1,
-  },
-  bottomContainer: {
-    flex: 1, // Оставшаяся 1/4 экрана
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-  },
-  nextButton: {
-    backgroundColor: Colors.light.green,
-    padding: 20,
-    borderRadius: 15,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-}); 
+});
