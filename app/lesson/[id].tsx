@@ -5,8 +5,9 @@ import { data } from "@/data";
 import CardsLesson from "@/components/lessons/cardsLesson/CardsLesson";
 import { useState } from "react";
 import { useLocalSearchParams } from "expo-router";
+import MultipleChoise from "@/components/lessons/multitpleChoise/MultipleChoise";
 
-type LessonType = "video" | "cards";
+type LessonType = "video" | "cards" | "multipleChoice";
 
 
 export default function LessonScreen() {
@@ -18,20 +19,25 @@ export default function LessonScreen() {
     setDataNr(dataNr + 1)
   }
 
-  const LESSON_COMPONENTS: Record<LessonType, React.ReactNode> = {
-    video: data[id][dataNr].type === 'video' ? <VideoLesson {...data[id][dataNr]} handleNext={handleNext} /> : null,
-    cards: data[id][dataNr].type === 'cards' ? <CardsLesson data={data[id][dataNr].data} /> : null,
-  } as const;
-  
 
-
-  if (!data[id]?.[dataNr]?.type) {
+  if (!id || !data[id]?.[dataNr]) {
     return (
       <View style={styles.container}>
         <Text>Loading...</Text>
       </View>
     );
   }
+
+  const LESSON_COMPONENTS: Record<LessonType, React.ReactNode> = {
+    video: data[id][dataNr].type === 'video' ? 
+      <VideoLesson key={dataNr} {...data[id][dataNr]} handleNext={handleNext} /> : null,
+    cards: data[id][dataNr].type === 'cards' ? 
+      <CardsLesson key={dataNr} data={data[id][dataNr].data} handleNext={handleNext} /> : null,
+    multipleChoice: data[id][dataNr].type === 'multipleChoice' ? 
+      <MultipleChoise key={dataNr} data={data[id][dataNr].data} handleNext={handleNext} /> : null,
+  } as const;
+  
+
 
   return (
     <View style={styles.container}>

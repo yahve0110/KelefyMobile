@@ -15,11 +15,10 @@ const videoHeight = height * 0.75;
 type Props = {
   type: string;
   href: string;
-  nextType: string;
   handleNext: () => void;
 }
 
-const VideoLesson = ({ type, href, nextType,handleNext }: Props) => {
+const VideoLesson = ({ type, href,handleNext }: Props) => {
 
   return (
     <>

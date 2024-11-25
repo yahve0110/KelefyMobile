@@ -14,27 +14,19 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { FontAwesome } from "@expo/vector-icons";
-import InExNetsBtn from "@/components/ExerciseNavihationBtn/ExerciseNavihationBtn";
-import { Audio } from "expo-av";
 import ExerciseNavihationBtn from "@/components/ExerciseNavihationBtn/ExerciseNavihationBtn";
-
-interface Card {
-  en: string;
-  et: string;
-  image_url: string;
-  audio_url: string;
-  description: string;
-}
+import { Card } from "@/data";
+import SoundButton from "@/components/SoundButton/SoundButton";
 
 interface Props {
+  handleNext: () => void;
   data: Card[];
 }
 
 const CardsLesson: React.FC<Props> = (props: Props) => {
-  const { data } = props;
+  const { handleNext, data } = props;
   const [flipped, setFlipped] = useState(false);
   const rotation = useSharedValue(0);
-  const [sound, setSound] = useState<Audio.Sound | null>(null);
 
   const [currentCard, setCurrentCard] = useState(0);
 
@@ -64,30 +56,6 @@ const CardsLesson: React.FC<Props> = (props: Props) => {
     transform: [{ rotateY: `${rotation.value - 180}deg` }],
     opacity: rotation.value >= 90 ? 1 : 0,
   }));
-
-  const handleSoundPress = async () => {
-    try {
-      const { sound: newSound } = await Audio.Sound.createAsync({
-        uri: data[currentCard].audio_url,
-      });
-      await newSound.playAsync();
-
-      if (sound) {
-        await sound.unloadAsync();
-      }
-      setSound(newSound);
-    } catch (error) {
-      console.error("Ошибка воспроизведения:", error);
-    }
-  };
-
-  React.useEffect(() => {
-    return () => {
-      if (sound) {
-        sound.unloadAsync();
-      }
-    };
-  }, [sound]);
 
   return (
     <View style={styles.container}>
@@ -128,13 +96,18 @@ const CardsLesson: React.FC<Props> = (props: Props) => {
         </View>
       </TouchableWithoutFeedback>
       <View style={styles.bottomContainer}>
-        <TouchableOpacity style={styles.soundButton} onPress={handleSoundPress}>
-          <FontAwesome name="volume-up" size={32} color={Colors.light.text} />
-        </TouchableOpacity>
-        {currentCard > 0 && (
-          <ExerciseNavihationBtn onPress={prevCard} text="Prev" />
+        <SoundButton audioUrl={data[currentCard].audio_url} />
+        {currentCard === data.length - 1 ? (
+          <>
+            {currentCard > 0 && <ExerciseNavihationBtn onPress={prevCard} text="Prev" />}
+            <ExerciseNavihationBtn onPress={handleNext} text="Finish" />
+          </>
+        ) : (
+          <>
+            {currentCard > 0 && <ExerciseNavihationBtn onPress={prevCard} text="Prev" />}
+            <ExerciseNavihationBtn onPress={nextCard} text="Next" />
+          </>
         )}
-        <ExerciseNavihationBtn onPress={nextCard} text="Next" />
       </View>
     </View>
   );
@@ -215,14 +188,6 @@ const styles = StyleSheet.create({
   starButton: {
     padding: 10,
     borderRadius: 10,
-  },
-  soundButton: {
-    padding: 10,
-    borderRadius: 10,
-    aspectRatio: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.light.itemsColor,
   },
   nextButton: {
     alignSelf: "flex-end",
