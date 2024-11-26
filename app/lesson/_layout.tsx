@@ -1,17 +1,31 @@
 import { RouteParams, Stack, useLocalSearchParams } from "expo-router";
-import { StatusBar, Text } from "react-native";
+import { StatusBar, Text, View, StyleSheet } from "react-native";
 import Colors from "@/constants/Colors";
-import React from "react";
+import React, { useState, useCallback } from "react";
 
 type RootStackParamList = {
   [id: string]: { id: string } | undefined;
 };
 
+export const ProgressContext = React.createContext<{
+  updateProgress: (value: number) => void;
+}>({ updateProgress: () => {} });
+
 export default function LevelLayout(): React.JSX.Element {
-  const { title } = useLocalSearchParams<{ title: string }>();
+  const { progress } = useLocalSearchParams<{ progress: string }>();
+
+  // Ensure progress is a valid number
+  const initialProgress = progress && !isNaN(Number(progress)) ? Number(progress) : 0;
+  const [currentProgress, setCurrentProgress] = useState<number>(initialProgress);
+
+  const updateProgress = useCallback((value: number) => {
+    if (!isNaN(value) && value >= 0 && value <= 100) {
+      setCurrentProgress(value);
+    }
+  }, []);
 
   return (
-    <>
+    <ProgressContext.Provider value={{ updateProgress }}>
       <StatusBar
         backgroundColor={Colors.light.secondaryBackground}
         barStyle="light-content"
@@ -26,25 +40,53 @@ export default function LevelLayout(): React.JSX.Element {
           headerTitleStyle: {
             fontWeight: "bold",
           },
-
+          header: () => (
+            <View style={styles.headerContainer}>
+              <View style={styles.progressBarContainer}>
+                <View
+                  style={[
+                    styles.progressBar,
+                    {
+                      width: `${currentProgress}%`,
+                    },
+                  ]}
+                />
+              </View>
+              <Text style={styles.progressText}>{`${currentProgress}% Completed`}</Text>
+            </View>
+          ),
           statusBarTranslucent: false,
         }}
       >
-        <Stack.Screen
-          name="[id]"
-          options={{
-            headerTitle: title,
-            headerStyle: {
-              backgroundColor: Colors.light.background,
-            },
-            headerTitleStyle: {
-              color: Colors.light.color,
-              fontSize: 20,
-              fontWeight: "bold",
-            },
-          }}
-        />
+        <Stack.Screen name="[id]" />
       </Stack>
-    </>
+    </ProgressContext.Provider>
   );
 }
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    backgroundColor: Colors.light.secondaryBackground,
+    paddingTop: 16,
+    paddingBottom: 8,
+    paddingHorizontal: 16,
+  },
+  progressBarContainer: {
+    height: 10,
+    backgroundColor: "#E0E0E0",
+    width: "100%",
+    borderRadius: 2,
+    overflow: "hidden",
+  },
+  progressBar: {
+    height: 10,
+    backgroundColor: Colors.light.itemsColor,
+    borderRadius: 2,
+  },
+  progressText: {
+    marginTop: 8,
+    color: Colors.light.color,
+    fontSize: 14,
+    textAlign: "center",
+  },
+});

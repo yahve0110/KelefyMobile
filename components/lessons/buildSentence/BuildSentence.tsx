@@ -34,9 +34,7 @@ const BuildSentence = (props:Props) => {
           setSelectedAnswer(null);
           setIsAnswerCorrect(null);
         } else {
-          Alert.alert(`Exercise completed! Correct answers: ${correctAnswersCount}`);
-          setCurrentPhraseIndex(0);
-          setCorrectAnswersCount(0);
+            handleNext()
         }
       }, 500);
     } else {

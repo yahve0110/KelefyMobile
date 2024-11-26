@@ -53,7 +53,11 @@ interface BuildSentenceStep {
   data: BuildSentenceQuestion[];
 }
 
-type LessonStep = VideoStep | CardsStep | MultipleChoiceStep | MatchingStep | BuildSentenceStep;
+interface FinishStep {
+  type: "finish";
+}
+
+type LessonStep = VideoStep | CardsStep | MultipleChoiceStep | MatchingStep | BuildSentenceStep | FinishStep;
 
 interface Lesson {
   [stepNumber: number]: LessonStep;
@@ -304,5 +308,9 @@ export const data: LessonsData = {
           }
         ],
     },
+    7:{
+      type: "finish",
+      
+    }
   },
 };

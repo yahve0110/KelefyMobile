@@ -124,6 +124,6 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   separator: {
-    height: 10, // Отступ между элементами
+    height: 10, 
   },
 });
