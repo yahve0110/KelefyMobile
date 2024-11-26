@@ -6,38 +6,45 @@ import CardsLesson from "@/components/lessons/cardsLesson/CardsLesson";
 import { useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 import MultipleChoise from "@/components/lessons/multitpleChoise/MultipleChoise";
+import Matching from "@/components/lessons/matching/Matching";
 
-type LessonType = "video" | "cards" | "multipleChoice";
-
+type LessonType = "video" | "cards" | "multipleChoice" | "matching";
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  const [dataNr, setDataNr] = useState(1)
+  const [dataNr, setDataNr] = useState(1);
 
   const handleNext = () => {
-    setDataNr(dataNr + 1)
-  }
+    setDataNr(dataNr + 1);
+  };
 
+  const LESSON_COMPONENTS: Record<LessonType, React.ReactNode> = {
+    video:
+      data[id][dataNr].type === "video" ? (
+        <VideoLesson key={`${id}-${dataNr}`} {...data[id][dataNr]} handleNext={handleNext} />
+      ) : null,
+    cards:
+      data[id][dataNr].type === "cards" ? (
+        <CardsLesson key={`${id}-${dataNr}`} data={data[id][dataNr].data} handleNext={handleNext} />
+      ) : null,
+    multipleChoice:
+      data[id][dataNr].type === "multipleChoice" ? (
+        <MultipleChoise key={`${id}-${dataNr}`} data={data[id][dataNr].data} handleNext={handleNext} />
+      ) : null,
+    matching: 
+      data[id][dataNr].type === "matching" ? (
+        <Matching key={`${id}-${dataNr}`} data={data[id][dataNr].data} handleNext={handleNext} />
+      ) : null,
+  } as const;
 
-  if (!id || !data[id]?.[dataNr]) {
+  if (!data[id]?.[dataNr]?.type) {
     return (
       <View style={styles.container}>
         <Text>Loading...</Text>
       </View>
     );
   }
-
-  const LESSON_COMPONENTS: Record<LessonType, React.ReactNode> = {
-    video: data[id][dataNr].type === 'video' ? 
-      <VideoLesson key={dataNr} {...data[id][dataNr]} handleNext={handleNext} /> : null,
-    cards: data[id][dataNr].type === 'cards' ? 
-      <CardsLesson key={dataNr} data={data[id][dataNr].data} handleNext={handleNext} /> : null,
-    multipleChoice: data[id][dataNr].type === 'multipleChoice' ? 
-      <MultipleChoise key={dataNr} data={data[id][dataNr].data} handleNext={handleNext} /> : null,
-  } as const;
-  
-
 
   return (
     <View style={styles.container}>

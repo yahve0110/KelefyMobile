@@ -11,6 +11,24 @@ interface VideoStep {
   href: string;
 }
 
+export interface BuildSentenceQuestion {
+  type: "buildSentence";
+  sentence: string;
+  correctAnswer: string;
+  options: string[];
+
+}
+
+export interface MatchingQuestion {
+  wordsFrom: { id: string; text: string }[];
+  wordsTo: { id: string; text: string }[];
+}
+
+export interface MatchingStep {
+  type: "matching";
+  data: MatchingQuestion[];
+}
+
 export interface MultipleChoiceQuestion {
   type: "multipleChoice";
   word: string;
@@ -18,7 +36,6 @@ export interface MultipleChoiceQuestion {
   audio_url: string;
   translations: string[];
   correctWord: string;
-
 }
 
 interface CardsStep {
@@ -31,7 +48,13 @@ interface MultipleChoiceStep {
   data: MultipleChoiceQuestion[];
 }
 
-type LessonStep = VideoStep | CardsStep | MultipleChoiceStep;
+
+interface BuildSentenceStep {
+  type: "buildSentence";
+  data: BuildSentenceQuestion[];
+}
+
+type LessonStep = VideoStep | CardsStep | MultipleChoiceStep | MatchingStep | BuildSentenceStep;
 
 interface Lesson {
   [stepNumber: number]: LessonStep;
@@ -46,7 +69,6 @@ export const data: LessonsData = {
     1: {
       type: "video",
       href: "https://app.heygen.com/embeds/4dd02802245f45909d092aad7d0458c7",
-  
     },
     2: {
       type: "cards",
@@ -108,7 +130,6 @@ export const data: LessonsData = {
     3: {
       type: "multipleChoice",
       data: [
-  
         {
           word: "Tere",
           image_url:
@@ -117,7 +138,6 @@ export const data: LessonsData = {
           translations: ["Goodbye", "Hello", "Good morning"],
           correctWord: "Hello",
           type: "multipleChoice",
-     
         },
         {
           word: "Kuidas läheb?",
@@ -127,7 +147,6 @@ export const data: LessonsData = {
           translations: ["Where are you?", "Who are you?", "How are you?"],
           correctWord: "How are you?",
           type: "multipleChoice",
-     
         },
         {
           word: "Hästi!",
@@ -138,7 +157,6 @@ export const data: LessonsData = {
           translations: ["Hello!", "Good!", "Good day!"],
           correctWord: "Good!",
           type: "multipleChoice",
-        
         },
         {
           word: "Tere Hommikust!",
@@ -164,7 +182,7 @@ export const data: LessonsData = {
           word: "Tere päevast!",
           translations: ["Good evening", "Good day!", "Goodbye!"],
           correctWord: "Good day!",
- 
+
           type: "multipleChoice",
           audio_url: "https://www.book2.nl/book2/ET/SOUND/0044.mp3",
           image_url:
@@ -172,7 +190,7 @@ export const data: LessonsData = {
         },
       ],
     },
-    4:{
+    4: {
       type: "multipleChoice",
       data: [
         {
@@ -183,12 +201,11 @@ export const data: LessonsData = {
           audio_url: "https://www.book2.nl/book2/ET/SOUND/0043.mp3",
           translations: ["Tere", "Head aega", "Tere hommikust"],
           correctWord: "Tere",
-
         },
         {
           word: "How are you?",
           audio_url: "https://www.book2.nl/book2/ET/SOUND/0045.mp3",
-          type: "multipleChoiseEnEst",
+          type: "multipleChoice",
           image_url:
             "https://firebasestorage.googleapis.com/v0/b/keelefy.appspot.com/o/lesson1%2FhowIsGoing.jpeg?alt=media&token=d2fd54bd-512a-46a3-bd7b-dfe65387c0b7",
           translations: ["Kuidas läheb?", "Kes sa oled?", "Kuhu lähed?"],
@@ -233,7 +250,28 @@ export const data: LessonsData = {
           image_url:
             "https://firebasestorage.googleapis.com/v0/b/keelefy.appspot.com/o/lesson1%2Fhello_2.png?alt=media&token=7a28a257-8d06-4888-8ba9-f076c920d16c",
         },
-      ]
-    }
+      ],
+    },
+    5: {
+      type: "matching",
+      data : [{
+        wordsFrom: [
+          { id: "1", text: "Hello" },
+          { id: "2", text: "How are you" },
+          { id: "3", text: "Good" },
+          { id: "4", text: "Good morning" },
+        ],
+        wordsTo: [
+          { id: "1", text: "Tere" },
+          { id: "2", text: "Kuidas läheb?" },
+          { id: "3", text: "Hästi!" },
+          { id: "4", text: "Tere hommikust" },
+        ],
+      }],
+    },
+    6: {
+      type: "buildSentence",
+      data: [],
+    },
   },
 };
