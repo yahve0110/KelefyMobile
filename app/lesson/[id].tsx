@@ -7,8 +7,9 @@ import { useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 import MultipleChoise from "@/components/lessons/multitpleChoise/MultipleChoise";
 import Matching from "@/components/lessons/matching/Matching";
+import BuildSentence from "@/components/lessons/buildSentence/BuildSentence";
 
-type LessonType = "video" | "cards" | "multipleChoice" | "matching";
+type LessonType = "video" | "cards" | "multipleChoice" | "matching" | "buildSentence";
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -32,9 +33,13 @@ export default function LessonScreen() {
       data[id][dataNr].type === "multipleChoice" ? (
         <MultipleChoise key={`${id}-${dataNr}`} data={data[id][dataNr].data} handleNext={handleNext} />
       ) : null,
-    matching: 
-      data[id][dataNr].type === "matching" ? (
+      matching: 
+        data[id][dataNr].type === "matching" ? (
         <Matching key={`${id}-${dataNr}`} data={data[id][dataNr].data} handleNext={handleNext} />
+      ) : null,
+    buildSentence:
+      data[id][dataNr].type === "buildSentence" ? (
+        <BuildSentence key={`${id}-${dataNr}`}  data={data[id][dataNr].data} handleNext={handleNext} />
       ) : null,
   } as const;
 

@@ -32,6 +32,7 @@ const Matching = (props: Props) => {
     string,
     { x: number; y: number; width: number; height: number }
   >>({});
+  const [isCompleted, setIsCompleted] = useState(false);
 
   // Преобразуем данные в нужный формат
   const words = data[0].wordsFrom.map((word, index) => {
@@ -60,6 +61,12 @@ const Matching = (props: Props) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (isCompleted) {
+      handleNext();
+    }
+  }, [isCompleted, handleNext]);
+
   const onMatch = (id: string) => {
     setMatches((prev) => {
         const newMatches = {
@@ -71,7 +78,7 @@ const Matching = (props: Props) => {
         const allWordsMatched = words.every(word => newMatches[word.id]);
         
         if (allWordsMatched) {
-            console.log('🎉 Все слова успешно сопоставлены!', {
+            console.log('🎉 All words successfully matched!', {
                 matches: newMatches,
                 totalWords: words.length,
                 matchedWords: Object.keys(newMatches).length,
@@ -82,7 +89,7 @@ const Matching = (props: Props) => {
                     matched: newMatches[word.id]
                 }))
             });
-            handleNext()
+            setIsCompleted(true);
         }
         
         return newMatches;
@@ -151,9 +158,10 @@ const Matching = (props: Props) => {
                 word={word}
                 targetPosition={targetPositions[word.id]}
                 targetPositions={targetPositions}
-                onMatch={onMatch}
-                containerPosition={containerPosition}
-              />
+                onMatch={onMatch} containerPosition={{
+                  x: 0,
+                  y: 0
+                }}              />
             )
         )}
       </View>

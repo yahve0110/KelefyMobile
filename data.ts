@@ -12,7 +12,6 @@ interface VideoStep {
 }
 
 export interface BuildSentenceQuestion {
-  type: "buildSentence";
   sentence: string;
   correctAnswer: string;
   options: string[];
@@ -271,7 +270,39 @@ export const data: LessonsData = {
     },
     6: {
       type: "buildSentence",
-      data: [],
+      data: [
+    
+          {
+            sentence: "Hello! ____",
+            correctAnswer: "Tere!",
+            options: ["Tere!", "Tere päevast!", "Hästi!", "Tere õhtust!"]
+          },
+          {
+            sentence: "Good day! ____",
+            correctAnswer: "Tere päevast!",
+            options: ["Tere!", "Tere päevast!", "Hästi!", "Tere õhtust!"]
+          },
+          {
+            sentence: "Good morning! ____",
+            correctAnswer: "Tere hommikust!",
+            options: ["Tere hommikust!", "Hästi!", "Tere õhtust!", "Tere!"]
+          },
+          {
+            sentence: "How are you? ____",
+            correctAnswer: "Kuidas läheb?",
+            options: ["Tere!", "Kuidas läheb?", "Hästi!", "Tere õhtust!"]
+          },
+          {
+            sentence: "Good! ____",
+            correctAnswer: "Hästi!",
+            options: ["Tere!", "Tere hommikust!", "Hästi!", "Tere õhtust!"]
+          },
+          {
+            sentence: "Good evening! ____",
+            correctAnswer: "Tere õhtust!",
+            options: ["Tere õhtust!", "Tere hommikust!", "Hästi!", "Tere!"]
+          }
+        ],
     },
   },
 };
